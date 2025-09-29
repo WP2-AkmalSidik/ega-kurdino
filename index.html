@@ -92,9 +92,13 @@
                             <!-- Foto profile -->
                             <div
                                 class="w-48 h-48 mx-auto bg-gradient-to-br from-pink-300 to-violet-300 rounded-full flex items-center justify-center shadow-xl overflow-hidden">
-                                <img src="src/img/ega-kurdino.jpg"
-                                    alt="Profile"
-                                    class="w-full h-full object-cover rounded-full" />
+                                <picture>
+                                    <source srcset="src/img/ega-kurdino.webp" type="image/webp" />
+                                    <img src="src/img/ega-kurdino.jpg"
+                                         alt="Profile"
+                                         class="w-full h-full object-cover rounded-full"
+                                         loading="lazy" />
+                                </picture>
                             </div>
 
                             <!-- Ornamen bintang -->
