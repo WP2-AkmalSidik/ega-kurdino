@@ -11,6 +11,47 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
             rel="stylesheet">
         <style>
+            @keyframes rotate-in {
+                from {
+                    transform: rotate(0deg);
+                    opacity: 0;
+                }
+                to {
+                    transform: rotate(90deg);
+                    opacity: 1;
+                }
+            }
+            .rotate-90 {
+                animation: rotate-in 0.3s ease-in-out forwards;
+            }
+
+            @keyframes fade-in-down {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .animate-fade-in-down {
+                animation: fade-in-down 0.3s ease-out forwards;
+            }
+
+            @keyframes fade-out-up {
+                from {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+            }
+            .animate-fade-out-up {
+                animation: fade-out-up 0.3s ease-out forwards;
+            }
         .blob-shape {
             clip-path: polygon(68% 10%, 100% 50%, 68% 90%, 32% 90%, 0% 50%, 32% 10%);
         }
@@ -572,46 +613,74 @@
         </footer>
 
         <script>
-            // Smooth scrolling
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
+            // Smooth scrolling & menutup menu mobile
+            document.querySelectorAll('#mobileMenu a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // Tutup menu mobile & ganti ikon
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    const burger = document.getElementById('burger');
+                    
+                    mobileMenu.classList.remove('animate-fade-in-down');
+                    mobileMenu.classList.add('animate-fade-out-up');
+                    
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('animate-fade-out-up');
+                        burger.innerHTML = '<i class="fas fa-bars"></i>';
+                        burger.classList.remove('rotate-90');
+                    }, 300); // Waktu yang sama dengan durasi animasi
                 });
-                // Tutup menu mobile setelah klik
-                document.getElementById('mobileMenu').classList.add('hidden');
             });
-            });
-
-            // Toggle Burger Menu
+        
+            // Toggle Burger Menu & Animasi Ikon + Menu
             const burger = document.getElementById('burger');
             const mobileMenu = document.getElementById('mobileMenu');
+            
             burger.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-            burger.innerHTML = mobileMenu.classList.contains('hidden') 
-                ? '<i class="fas fa-bars"></i>' 
-                : '<i class="fas fa-times"></i>';
+                if (mobileMenu.classList.contains('hidden')) {
+                    // Jika menu tertutup, buka menu dengan animasi
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('animate-fade-in-down');
+                    burger.innerHTML = '<i class="fas fa-times"></i>';
+                    burger.classList.add('rotate-90');
+                } else {
+                    // Jika menu terbuka, tutup menu dengan animasi
+                    mobileMenu.classList.remove('animate-fade-in-down');
+                    mobileMenu.classList.add('animate-fade-out-up');
+                    burger.classList.remove('rotate-90');
+                    
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('animate-fade-out-up');
+                        burger.innerHTML = '<i class="fas fa-bars"></i>';
+                    }, 300); // Waktu yang sama dengan durasi animasi fade out
+                }
             });
-
-            // Sparkle Animation
+        
+            // Sparkle Animation (tetap dipertahankan)
             document.addEventListener('DOMContentLoaded', function() {
-            const sparkles = ['✨', '🌟', '💫', '⭐', '🌸'];
-            function createSparkle() {
-                const sparkle = document.createElement('div');
-                sparkle.style.position = 'fixed';
-                sparkle.style.pointerEvents = 'none';
-                sparkle.style.fontSize = '20px';
-                sparkle.style.zIndex = '9999';
-                sparkle.innerHTML = sparkles[Math.floor(Math.random() * sparkles.length)];
-                sparkle.style.left = Math.random() * window.innerWidth + 'px';
-                sparkle.style.top = Math.random() * window.innerHeight + 'px';
-                sparkle.style.opacity = '0.7';
-                sparkle.style.animation = 'float 3s ease-out forwards';
-                document.body.appendChild(sparkle);
-                setTimeout(() => sparkle.remove(), 3000);
-            }
-            setInterval(createSparkle, 3000);
+                const sparkles = ['✨', '🌟', '💫', '⭐', '🌸'];
+                function createSparkle() {
+                    const sparkle = document.createElement('div');
+                    sparkle.style.position = 'fixed';
+                    sparkle.style.pointerEvents = 'none';
+                    sparkle.style.fontSize = '20px';
+                    sparkle.style.zIndex = '9999';
+                    sparkle.innerHTML = sparkles[Math.floor(Math.random() * sparkles.length)];
+                    sparkle.style.left = Math.random() * window.innerWidth + 'px';
+                    sparkle.style.top = Math.random() * window.innerHeight + 'px';
+                    sparkle.style.opacity = '0.7';
+                    sparkle.style.animation = 'float 3s ease-out forwards';
+                    document.body.appendChild(sparkle);
+                    setTimeout(() => sparkle.remove(), 3000);
+                }
+                setInterval(createSparkle, 3000);
             });
         </script>
     </body>
